@@ -1,0 +1,146 @@
+<div class="content-wrapper">
+  <div class="content-body">
+    <!-- content-header component -->
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <!-- Basic Alerts start -->
+    <section id="home-page">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Ubica tu centro de salud mas cercano 🚀</h4>
+            </div>
+            <div class="card-body pb-1">              
+              <div class="row mb-2">
+                <div class="col-md-4">
+                    <label for="exampleFormControlInput1" class="form-label">Selecciona tu distrito</label>
+                    <select class="form-control" [(ngModel)]="distrito" (change)="onDistritoIsSelected()">
+                      <option value="">Seleccionar</option>
+                      <option *ngFor="let item of distritos" [value]="item.ubigeo">{{ item.distrito }}</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="exampleFormControlInput1" class="form-label">Selecciona tu especialidad</label>
+                    <select class="form-control" [(ngModel)]="especialidad" (change)="onEspecialidadIsSelected()" [disabled]="!distrito">
+                      <option value="">Seleccionar</option>
+                      <option *ngFor="let item of especialidades" [value]="item.upss">{{ item.nombre }}</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="exampleFormControlInput1" class="form-label">Seleccione la institución</label>
+                    <select class="form-control" [(ngModel)]="institucion" (change)="onInstitutoIsSelected()" [disabled]="!distrito">
+                      <option value="">Seleccionar</option>
+                      <option *ngFor="let item of instituciones" [value]="item">{{ item }}</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- <div *ngIf="hospitals.length > 0" style="height: 700px; z-index: 0"
+                      leaflet 
+                      [leafletOptions]="options"
+                      [leafletLayers]="hospitals">
+                  </div> -->
+                  <google-map 
+                    width="100%"  
+                    height="450px"
+                    [center]="center"
+                    [zoom]="zoom"
+                    [options]="mapOptions">
+                    <map-marker #marker="mapMarker"
+                    *ngFor="let markerPosition of markerPositions"
+                    [position]="markerPosition.pos" 
+                    (mapClick)="openInfoWindow(marker, markerPosition)" [options]="markerOptions">
+                  </map-marker>  
+                  <map-info-window *ngFor="let markerPosition of markerPositions" 
+                    [position]="markerPosition.pos" >{{ titlePoint }}</map-info-window>
+                  </google-map>
+                </div>
+
+                <div class="col-md-6" *ngIf="currentDataIpress">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Código</td>
+                        <td>{{ currentDataIpress.ipress }}</td>
+                      </tr>
+                      <tr>
+                        <td>Nombre</td>
+                        <td>{{ currentDataIpress.nombre }}</td>
+                      </tr>
+                      <tr>
+                        <td>Dirección</td>
+                        <td>{{ currentDataIpress.direccion }}</td>
+                      </tr>
+                      <tr>
+                        <td>Distrito</td>
+                        <td>{{ currentDataIpress.distrito }}</td>
+                      </tr>
+                      <tr>
+                        <td>Horario</td>
+                        <td>{{ currentDataIpress.horario }}</td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono</td>
+                        <td>{{ currentDataIpress.telefono }}</td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono emergencia</td>
+                        <td>{{ currentDataIpress.telefono_emergencia }}</td>
+                      </tr>
+                      <tr>
+                        <td>Institución</td>
+                        <td>{{ currentDataIpress.institucion }}</td>
+                      </tr>
+                      <tr>
+                        <td>Tipo</td>
+                        <td>{{ currentDataIpress.tipo }}</td>
+                      </tr>
+                      <tr *ngIf="currentDataIpress.url">
+                        <td>Página Web</td>
+                        <td><a href="{{ currentDataIpress.url }}" target="_blank">{{ currentDataIpress.url | lowercase }}</a></td>
+                      </tr>
+                      <!-- <tr><td>Categoría:</td> I-1<td></td></tr>
+                      <tr><td>RUC:</td> 20193980644<td></td></tr>
+                      <tr><td>Tipo:</td> ESTABLECIMIENTO DE SALUD SIN INTERNAMIENTO<td></td></tr>
+                      <tr><td>Estado de registro de la IPRESS:</td> ACTIVO<td></td></tr>
+                      <tr><td>Situación:</td> REGISTRADO<td></td></tr>
+                      <tr><td>UE:</td> SALUD PASCO<td></td></tr>
+                      <tr><td>Institución a la que pertenece:</td> GOBIERNO REGIONAL<td></td></tr>
+                      <tr><td>CLAS:</td> ESTABLECIMIENTO NO CLAS<td></td></tr>
+                      <tr><td>Creación:</td><td></td></tr>
+                      <tr><td>Inicio:</td> 01/01/1900<td></td></tr>
+                      <tr><td>Ambientes:</td> 5<td></td></tr>
+                      <tr><td>N° de camas:</td><td></td></tr>
+                      <tr><td>Horario de atención:</td> 08:00-2:00PM<td></td></tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- <p class="card-text">All the best for your new project.</p>
+              <p class="card-text">
+                Please make sure to read our
+                <a
+                  href="https://pixinvent.com/demo/vuexy-angular-admin-dashboard-template/documentation/"
+                  target="_blank"
+                  >Template Documentation</a
+                >
+              </p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Basic Alerts end -->
+  </div>
+</div>
